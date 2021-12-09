@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesarrolloWebAPI.Migrations
 {
     [DbContext(typeof(SQLDbContext))]
-    [Migration("20211205175239_MigracionDesarrolloWeb")]
-    partial class MigracionDesarrolloWeb
+    [Migration("20211209020349_MigracionDesarrolloWebAzure")]
+    partial class MigracionDesarrolloWebAzure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

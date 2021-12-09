@@ -49,6 +49,32 @@ namespace DesarrolloWebAPI.Controllers
             }
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteArticulo(int id)
+        {
+            var articulo = await _context.Articulos.FindAsync(id);
+            if (articulo == null) return BadRequest();
+            _context.Articulos.Remove(articulo);
+            await _context.SaveChangesAsync();
+            return NoContent();   
+        }
+
+        [HttpGet("{ProveedorId}")]
+        public async Task<ActionResult> GetProveedorArticulo(int ProveedorId)
+        {
+            var info = from p in _context.Articulos select p;
+            info.Where(p => p.ProveedorId == ProveedorId);
+            await info.ToListAsync();
+            foreach(var i in info)
+            {
+                if(i.ProveedorId == ProveedorId)
+                {
+                    return Ok(_context.Articulos.FromSqlRaw("Select * from [dbo].[Articulos]").Where(p => p.ProveedorId == ProveedorId));
+                } 
+            }
+            return NotFound();
+        }
         private bool BuscarArticulo(int id) { return _context.Articulos.Any(info => id == info.Id); }
     }
 }

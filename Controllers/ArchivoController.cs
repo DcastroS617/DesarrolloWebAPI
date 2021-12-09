@@ -1,10 +1,7 @@
 using DesarrolloWebAPI.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -55,6 +52,16 @@ namespace DesarrolloWebAPI.Controllers
             {
                 if (!BuscarArchivo(id)) { return NotFound(); } else { throw; }
             }
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteArchivo(int id)
+        {
+            var archivo = await _context.Archivos.FindAsync(id);
+            if(archivo == null) { return BadRequest(); }
+            _context.Archivos.Remove(archivo);
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 

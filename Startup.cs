@@ -37,6 +37,10 @@ namespace DesarrolloWebAPI
                 .AllowAnyMethod()));
             //services.AddDbContext<InMemoryContext>(context =>
             //context.UseInMemoryDatabase("InMemory"));
+            services.AddSwaggerGen(c =>
+            {
+               c.SwaggerDoc("v1", new() { Title = "DesarrolloWebAPI", Version = "v1" });
+            });
             services.AddDbContext<SQLDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("ConexionSQL")));//Inyeccion de dependencia bd
             services.AddControllers();
@@ -48,6 +52,12 @@ namespace DesarrolloWebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Desarrollo Web API");
+                    //c.RoutePrefix = string.Empty;
+                });
+                
             }
 
             app.UseHttpsRedirection();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DesarrolloWebAPI.Migrations
 {
-    public partial class MigracionDesarrolloWeb : Migration
+    public partial class MigracionDesarrolloWebAzure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
