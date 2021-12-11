@@ -28,21 +28,14 @@ namespace DesarrolloWebAPI
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-
-            
-            services.AddCors(option => option.AddPolicy(name: _MyCors,
-                builder => builder.SetIsOriginAllowed(uri => new Uri(uri).Host == "localhost")
-                .AllowAnyHeader()
-                .AllowAnyMethod()));
-            //services.AddDbContext<InMemoryContext>(context =>
-            //context.UseInMemoryDatabase("InMemory"));
+        {        
             services.AddSwaggerGen(c =>
             {
                c.SwaggerDoc("v1", new() { Title = "DesarrolloWebAPI", Version = "v1" });
             });
             services.AddDbContext<SQLDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("ConexionSQL")));//Inyeccion de dependencia bd
+            services.AddCors();
             services.AddControllers();
         }
 
@@ -66,7 +59,11 @@ namespace DesarrolloWebAPI
 
             app.UseStaticFiles();
 
-            app.UseCors(_MyCors);
+            app.UseCors(cors => cors
+                            .AllowAnyHeader()
+                            .AllowAnyHeader()
+                            .SetIsOriginAllowed(origen => true)
+                            .AllowAnyMethod());
 
             app.UseAuthorization();          
 
